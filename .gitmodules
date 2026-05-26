@@ -1,0 +1,6 @@
+[submodule "scan_context_slam/third_party/third_party/nano_gicp"]
+	path = scan_context_slam/third_party/third_party/nano_gicp
+	url = https://github.com/engcang/nano_gicp.git
+[submodule "scan_context_slam/third_party/third_party/quatro"]
+	path = scan_context_slam/third_party/third_party/quatro
+	url = https://github.com/engcang/quatro.git
