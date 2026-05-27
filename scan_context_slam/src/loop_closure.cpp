@@ -1,5 +1,15 @@
 #include "loop_closure.h"
 
+LoopClosure::LoopClosure(const LoopClosureConfig& cfg) : config_(cfg) 
+{
+    nano_gicp_.setNumThreads(config_.gicp_config_.nano_thread_number_);
+    nano_gicp_.setCorrespondenceRandomness(config_.gicp_config_.nano_correspondences_number_);
+    nano_gicp_.setMaximumIterations(config_.gicp_config_.nano_max_iter_);
+    nano_gicp_.setMaxCorrespondenceDistance(config_.gicp_config_.max_corr_dist_);
+    nano_gicp_.setTransformationEpsilon(config_.gicp_config_.transformation_epsilon_);
+    nano_gicp_.setEuclideanFitnessEpsilon(config_.gicp_config_.euclidean_fitness_epsilon_);
+}
+
 void LoopClosure::updateScancontext(const PointCloudType& cloud) {
     sc_manager_.makeAndSaveScancontextAndKeys(cloud);
 }
