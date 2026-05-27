@@ -10,6 +10,8 @@ find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(GTSAM REQUIRED)
 find_package(OpenMP REQUIRED)
+find_package(GTest REQUIRED)
+
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -28,6 +30,7 @@ add_definitions(${PCL_DEFINITIONS})
 include_directories(
     ${EIGEN3_INCLUDE_DIR}
     ${PCL_INCLUDE_DIRS}
+    ${GTEST_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -148,6 +151,39 @@ target_link_libraries(loop_closure_node
 )
 
 # -------------------------
+# Module 3 Unit Tests
+# -------------------------
+add_executable(loop_closure_test test/loop_closure_test.cpp)
+
+target_include_directories(loop_closure_test PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/nano_gicp/include
+    ${PCL_INCLUDE_DIRS}
+)
+
+ament_target_dependencies(loop_closure_test 
+    rclcpp
+    nav_msgs
+    sensor_msgs
+    geometry_msgs
+    tf2
+    tf2_eigen
+    tf2_geometry_msgs
+    pcl_conversions
+)
+
+target_link_libraries(loop_closure_test
+    loop_closure_node
+    scancontext
+    thirdparty_nano_gicp
+    Eigen3::Eigen
+    ${PCL_LIBRARIES}
+    GTest::GTest
+    GTest::Main
+    gtsam
+)
+
+# -------------------------
 # ROS2 Runtime
 # -------------------------
 install(TARGETS
@@ -157,6 +193,7 @@ install(TARGETS
   loop_closure_node
   sc_test
   utilities_test
+  loop_closure_test
   DESTINATION lib/${PROJECT_NAME}
 )
 
