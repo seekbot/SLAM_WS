@@ -1,5 +1,9 @@
 #include "loop_closure.h"
 
+void LoopClosure::updateScancontext(const PointCloudType& cloud) {
+    sc_manager_.makeAndSaveScancontextAndKeys(cloud);
+}
+
 int LoopClosure::fetchCandidateKeyframeIdx(
         const PosePcd& query, const std::vector<PosePcd>& keyframes) 
 {
@@ -107,4 +111,11 @@ RegistrationOutput LoopClosure::performLoopClosure(
         return coarseToFineAlignment(src, dst); // Quatro -> GICP
     
     return icpAlignment(src, dst);  // GICP only
+}
+
+// Quatro stub
+RegistrationOutput LoopClosure::coarseToFineAlignment(
+    const PointCloudType& src, const PointCloudType& dst)
+{
+    return icpAlignment(src, dst);  // fall through to GICP for now
 }
