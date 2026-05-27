@@ -1,4 +1,5 @@
 #pragma once
+#include <limits>
 #include <mutex>
 #include <tuple>
 #include "pose_pcd.hpp"
@@ -37,6 +38,18 @@ public:
     void updateScancontext(const PointCloudType& cloud);
     int fetchCandidateKeyframeIdx(const PosePcd& query, const std::vector<PosePcd>& keyframes);
     RegistrationOutput performLoopClosure(const PosePcd& query, const std::vector<PosePcd>& keyframes, int cand_idx);
+
+    /* === Testing-only access === */
+    // Forwards to private helper; same signature. Used by loop_closure_test.cpp
+    std::pair<PointCloudType, PointCloudType> _test_setSrcAndDstCloud(
+        const std::vector<PosePcd>& keyframes, 
+        int src_idx, int dst_idx,
+        int submap_range, double voxel_res,
+        bool use_submaps) 
+    {
+        return setSrcAndDstCloud(keyframes, src_idx, dst_idx, submap_range, voxel_res, use_submaps);
+    }
+
 private:
     // internal helpers used by performLoopClosure (no node outside the class should call them directly)
     std::pair<PointCloudType, PointCloudType> setSrcAndDstCloud(

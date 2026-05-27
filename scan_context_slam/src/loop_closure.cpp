@@ -47,7 +47,7 @@ std::pair<PointCloudType, PointCloudType>LoopClosure::setSrcAndDstCloud(
             transformPcd(keyframes[dst_idx].pcd_, keyframes[dst_idx].pose_corrected_eig_);
     } else {
         for (int i = dst_idx - submap_range; i <= dst_idx + submap_range; ++i) {
-            if (i >= 0 && (int)keyframes.size() - 1)
+            if (i >= 0 && i < (int)keyframes.size() - 1)
                 dst_accum += transformPcd(keyframes[i].pcd_, keyframes[i].pose_corrected_eig_);
         }
     }
