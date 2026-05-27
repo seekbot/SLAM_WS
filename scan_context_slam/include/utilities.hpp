@@ -35,7 +35,7 @@
 #include <gtsam/nonlinear/Values.h>
 
 using PointType = pcl::PointXYZI;
-using PointCloudT = pcl::PointCloud<PointType>;
+using PointCloudType = pcl::PointCloud<PointType>;
 
 /* === Eigen & GTSAM === */
 // Eigen -> GTSAM
@@ -72,18 +72,18 @@ inline Eigen::Matrix4d odomToEigen(const nav_msgs::msg::Odometry& odom) {
 
 /* === PCL (Cloud helpers) === */
 // Transform pcd with Eigen transformation matrix
-inline PointCloudT transformPcd(const PointCloudT& in,
+inline PointCloudType transformPcd(const PointCloudType& in,
                                 const Eigen::Matrix4d& T) {
   if (in.empty()) return in;
-  PointCloudT out;
+  PointCloudType out;
   pcl::transformPointCloud(in, out, T);
   return out;
 }
 
 // Discretize point cloud as voxel
-inline PointCloudT::Ptr voxelizePcd(const PointCloudT& in, float leaf) {
-  PointCloudT::Ptr in_ptr(new PointCloudT(in));
-  PointCloudT::Ptr out  (new PointCloudT);
+inline PointCloudType::Ptr voxelizePcd(const PointCloudType& in, float leaf) {
+  PointCloudType::Ptr in_ptr(new PointCloudType(in));
+  PointCloudType::Ptr out  (new PointCloudType);
   pcl::VoxelGrid<PointType> vg;
   vg.setLeafSize(leaf, leaf, leaf);
   vg.setInputCloud(in_ptr);

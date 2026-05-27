@@ -2,7 +2,7 @@
 #include "utilities.hpp"
 
 struct PosePcd {
-  PointCloudT      pcd_;                                                // stored in LiDAR frame
+  PointCloudType      pcd_;                                             // stored in LiDAR frame
   Eigen::Matrix4d  pose_eig_           = Eigen::Matrix4d::Identity();   // raw odom
   Eigen::Matrix4d  pose_corrected_eig_ = Eigen::Matrix4d::Identity();   // post graph optimization
   double           timestamp_ = 0.0;
@@ -22,7 +22,7 @@ inline PosePcd::PosePcd(const nav_msgs::msg::Odometry&     odom,
   pose_eig_ = odomToEigen(odom);
   pose_corrected_eig_ = pose_eig_;                     // init: corrected == raw
 
-  PointCloudT tmp;
+  PointCloudType tmp;
   pcl::fromROSMsg(pc, tmp);
 
   /**
